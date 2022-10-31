@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 )
@@ -14,19 +13,8 @@ type HomepageResponse struct{
 func HomePage(w http.ResponseWriter, r *http.Request){
   log.Println("[ENDPOINT] Homepage")
 
-  response := HomepageResponse{
-    Status : true,
-    Message: HomePageMessage(),
-  }
-
-  w.WriteHeader(http.StatusOK)
-  response_json,err := json.Marshal(response)
-
-  if err!=nil{
-    log.Println("[error] error marshallling structure to json. err id : 1")
-  }
-
-  w.Write(response_json)
+  msg := HomePageMessage()
+ 	SimpleSuccessStatus(msg, w) 
   return
 }
 

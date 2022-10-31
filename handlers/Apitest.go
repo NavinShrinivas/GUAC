@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"GUAC/globals"
-	"encoding/json"
 	"log"
 	"net/http"
 )
@@ -28,25 +27,17 @@ func BasicTest(w http.ResponseWriter, r *http.Request){
   globals.DbConn.Create(&test_record)
   globals.DbConn.Create(&test_record2)
 
-  log.Println("\n[DATABASE] Retrieving test records and returning to API.")
+	println()
+  log.Println("[DATABASE] Retrieving test records and returning to API.")
   conditions := globals.Admins{
     Adm_id: "test12345",
   }
-  api_response := ApitestResponse{
-    Status: true,
-    Test_record: "",
-  }
+	msg := "" 
   globals.DbConn.Where(&conditions).Find(&result)
   for _,v := range result {
-    api_response.Test_record += v.Adm_id+"   "+v.Adm_hash_pass+"   "
+    msg += v.Adm_id+"   "+v.Adm_hash_pass+"   "
   }
-
-  api_response_json, err:= json.Marshal(api_response)
-  if err!=nil{
-    log.Println("[error] error marshallling structure to json. err id : 1")
-  }
-  w.WriteHeader(http.StatusOK)
-  w.Write(api_response_json)
+  SimpleSuccessStatus(msg, w)
 
   log.Println("[DATABASE] Deleting test record from database")
   globals.DbConn.Delete(&conditions)

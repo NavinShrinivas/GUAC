@@ -11,11 +11,19 @@ import(
 )
 
 
-
+func documentRouter(w http.ResponseWriter, r *http.Request){
+  if r.Method == "POST"{
+    //Creating new document entry flow
+    handlers.Insertdoc(w,r)
+  }else if r.Method == "GET"{
+    //Get info about an existing document entry
+  }
+}
 
 func RoutesFunction(){
   http.HandleFunc("/", handlers.HomePage)
   http.HandleFunc("/test", handlers.BasicTest)
+  http.HandleFunc("/document", documentRouter)
   log.Fatal(http.ListenAndServe("0.0.0.0:3030",nil))
 }
 
