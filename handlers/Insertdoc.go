@@ -61,7 +61,11 @@ func Insertdoc(w http.ResponseWriter, r *http.Request){
       Adm_id: request_body.Adm_id,
       Def_permbit : inserting_permbit,
     }
-    globals.DbConn.Create(&new_record)
+    insert_err := globals.DbConn.Create(&new_record)
+		if insert_err.Error!=nil{
+			SimpleFailStatus(insert_err.Error.Error(), w)
+			return
+		}
     SimpleSuccessStatus("Inserted document, document now ready to track permissions!", w)
     return
   }else{
