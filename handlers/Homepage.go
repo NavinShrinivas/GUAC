@@ -23,10 +23,11 @@ func HomePage(w http.ResponseWriter, r *http.Request){
   response_json,err := json.Marshal(response)
 
   if err!=nil{
-    log.Println("[ERROR] Error Marshallling structure to JSON. ERR ID : 1")
+    log.Println("[error] error marshallling structure to json. err id : 1")
   }
 
   w.Write(response_json)
+  return
 }
 
 func HomePageMessage() string{
