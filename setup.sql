@@ -34,3 +34,4 @@ GRANT ALL PRIVILEGES ON *.* TO 'common_user'@localhost IDENTIFIED BY 'common_pas
 --   FOREIGN KEY (adm_id) REFERENCES admins(adm_id),
 --   auth_code varchar(64)
 -- );
+

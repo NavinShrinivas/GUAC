@@ -10,6 +10,8 @@ import (
 	"sync"
 )
 
+// ----------Main network functions----------
+// Creating method splitter, Not including in handlerFuncs
 func documentRouter(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		//Creating new document entry flow
@@ -19,12 +21,49 @@ func documentRouter(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func adminRouter(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		//Flow to create new admin
+		handlers.CreateAdmin(w, r)
+	} else if r.Method == "GET" {
+		//Get info about admins existance
+	}
+}
+
 func RoutesFunction() {
 	http.HandleFunc("/", handlers.HomePage)
 	http.HandleFunc("/test", handlers.BasicTest)
 	http.HandleFunc("/document", documentRouter)
+	http.HandleFunc("/admin", adminRouter)
 	log.Fatal(http.ListenAndServe("0.0.0.0:3030", nil))
 }
+
+var certFile = "./localhost.crt" //Need to changed if we enter product build
+var keyFile = "./localhost.key"  //Need to changed if we enter product build
+func SecureServerInit() {
+	log.Fatal(http.ListenAndServeTLS("0.0.0.0:3031", certFile, keyFile, nil))
+	//This server also serves same path as unsecure port, just complies to TLS
+}
+
+//End of main network funcs [Handlers, Method diff, Server]
+
+// ----------main runnner---------
+func main() {
+	wg := new(sync.WaitGroup)
+	log.Println("[DEBUG] Starting server on port 3030")
+	globals.DbConn = DatabaseEnv()
+	defer log.Println("[DATABASE] Intial database environment complete!")
+	wg.Add(1)
+	go RoutesFunction()
+	go SecureServerInit()
+	log.Println("[DEBUG] Server listening on port 3030")
+	log.Println("[DEBUG] Server listening on port 3031 For secure admin transactions")
+	wg.Wait()
+}
+
+//main function ends
+
+//----------Databse env setup----------
 
 func DatabaseEnv() *gorm.DB {
 	log.Println("[DATABASE] Intiating connection to MYSQL instance.")
@@ -53,13 +92,4 @@ func DatabaseEnv() *gorm.DB {
 	return db_con
 }
 
-func main() {
-	wg := new(sync.WaitGroup)
-	log.Println("[DEBUG] Starting server on port 3030")
-	globals.DbConn = DatabaseEnv()
-	defer log.Println("[DATABASE] Intial database environment complete!")
-	wg.Add(1)
-	go RoutesFunction()
-	log.Println("[DEBUG] Server listening on port 3030")
-	wg.Wait()
-}
+//End of Main database operations
