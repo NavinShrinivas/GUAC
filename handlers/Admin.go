@@ -5,12 +5,21 @@ import (
 	"GUAC/globals"
 	"encoding/json"
 	"log"
+	"net"
 	"net/http"
 )
 
 type AdminRequest struct {
 	Adm_id             string `json:"adm_id"`
 	Adm_pass_plaintext string `json:"adm_pass_plaintext"`
+}
+
+type RKGSReqRes struct {
+	Work  string `json:"Work"`
+	Pool  string `json:"Pool"`
+	Len   string `json:"Len"`
+	Url   string `json:"Url"`
+	Error string `json:"Error"`
 }
 
 func CheckAdminExists(admin_id string) bool {
@@ -68,6 +77,34 @@ func CreateAdmin(w http.ResponseWriter, r *http.Request) {
 			}
 			SimpleSuccessStatus("Succesfully created Admin account!", w)
 		}
+	}
+}
+
+func GetAuthCode(w http.ResponseWriter, r *http.Request) {
+	if r.TLS == nil {
+		//TLS attribute in request is filled server side, hence this comparision in secure and cannot be manipulated!
+		//TLS was not used for this request
+		log.Println("[DEBUG] Unauthorised access through non TLS port.")
+		SimpleFailStatus("Please use secure Socket port 3031 for admins and auth.", w)
+		return
+	}
+
+	//Need to request auth code from RKGS
+	RKGSres := RKGSReqRes{
+		Work:  "generate",
+		Pool:  "GUAC_pool",
+		Url:   "",
+		Error: "",
+	}
+	RKGSserverAddr, err := net.ResolveUDPAddr("udp", "0.0.0.0:6379")
+	if err != nil {
+		log.Println("[ERROR] Make sure RKGS server is listening on port 6379")
+	}
+	RKGSclientAddr, err := net.ResolveUDPAddr("udp", "0.0.0.0:0")
+	request_json, err := json.Marshal(RKGSres)
+
+	if err != nil {
+		log.Println("[ERROR] Error creating json payload for RKGS")
 	}
 
 }

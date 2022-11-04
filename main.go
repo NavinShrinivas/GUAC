@@ -18,6 +18,7 @@ func documentRouter(w http.ResponseWriter, r *http.Request) {
 		handlers.Insertdoc(w, r)
 	} else if r.Method == "GET" {
 		//Get info about an existing document entry
+		handlers.DocInfo(w, r)
 	}
 }
 
