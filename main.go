@@ -36,6 +36,7 @@ func RoutesFunction() {
 	http.HandleFunc("/test", handlers.BasicTest)
 	http.HandleFunc("/document", documentRouter)
 	http.HandleFunc("/admin", adminRouter)
+	http.HandleFunc("/authcode", handlers.GetAuthCode)
 	log.Fatal(http.ListenAndServe("0.0.0.0:3030", nil))
 }
 
