@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "6a0ac0b8-19f6-4596-a94b-c4453ed972a5",
+		"name": "GUAC endpoint test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20380827"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3030/test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3030/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:3031/admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"adm_id\" : \"admin123\",\n    \"adm_pass_plaintext\" : \"pass2123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3031/admin",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3031",
+					"path": [
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3030/document",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"doc_id\" : \"doc1\",\n    \"adm_id\" : \"admin123\",\n    \"def_permbit\" : \"00001000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3030/document",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"document"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:3031/document",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"doc_id\" : \"doc1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3030/document",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"document"
+					],
+					"query": [
+						{
+							"key": "hello",
+							"value": "world",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:3031/authcode",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"adm_id\" : \"admin123\",\n    \"adm_pass_plaintext\" : \"pass2123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3031/authcode",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3031",
+					"path": [
+						"authcode"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3030/users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\" : \"user123_test\",\n    \"doc_id\" : \"doc1\",\n    \"adm_id\" : \"admin123\",\n    \"auth_code\" : \"e6tHw3LyWldVo4Nvu6UAk-LWnxq-Zg32ymBZNJIFBSgPPRadDVQYP5vj8yx8oJ0s\",\n    \"nd_permbit\" : \"00001001\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3030/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3030/access",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\" : \"user123_test\",\n    \"doc_id\" : \"doc1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3030/access",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"access"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

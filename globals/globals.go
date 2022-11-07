@@ -22,12 +22,12 @@ type Doc struct {
 	// gorm.Model
 	Doc_id      string `gorm:"primaryKey"`
 	Def_permbit int8   `gorm:"type:int(1)"`
-	Adm_id      string `gorm:"ForeignKey:Adm_id"`
+	Adm_id      string `gorm:"foreignKey:Adm_id"`
 }
 
 type User_perms struct {
 	// gorm.Model
-	Doc_id     string `gorm:"ForeignKey:Doc_id"`
+	Doc_id     string `gorm:"foreignKey:Doc_id"`
 	User_id    string
 	Nd_permbit int8 `gorm:"type:int(1)"`
 }
