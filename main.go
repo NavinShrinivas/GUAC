@@ -19,6 +19,10 @@ func documentRouter(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == "GET" {
 		//Get info about an existing document entry
 		handlers.DocInfo(w, r)
+	}else if r.Method == "MODIFY"{
+		//Check the auth code and allow modification of record
+	}else if r.Method == "DELETE"{
+		//Check the auth code and allow deleting of document and all user records assosiated with document
 	}
 }
 

@@ -27,6 +27,30 @@ type RKGSReqRes struct {
 	Error string `json:"Error"`
 }
 
+func AuthCodeValid(adm_id string, auth_code string) (bool, error) {
+
+	constraint := globals.Auth_code{
+		Adm_id: adm_id,
+	}
+	var db_res []globals.Auth_code
+	globals.DbConn.Where(&constraint).Find(&db_res)
+
+	for _, v := range db_res {
+		if v.Adm_id == adm_id && v.Auth_code == auth_code {
+			delete_constarint := globals.Auth_code{
+				Adm_id:    v.Adm_id,
+				Auth_code: v.Auth_code,
+			}
+			response := globals.DbConn.Delete(delete_constarint) //Auth code acts as a one time password
+			if response.Error == nil {
+				log.Println("[DATABASE] Removed Auth code after use!")
+			}
+			return true, nil
+		}
+	}
+
+	return false, nil
+}
 func CheckAdminExists(admin_id string) bool {
 	constraint := globals.Admins{
 		Adm_id: admin_id,
