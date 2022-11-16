@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"fmt"
 )
 
 type AdminRequest struct {
@@ -175,9 +176,11 @@ func VerifyAdminPassword(request_body AdminRequest) bool {
 	db_record_constraint := globals.Admins{
 		Adm_id: request_body.Adm_id,
 	}
+	fmt.Println(request_body)
 	db_record_response := globals.Admins{}
-	globals.DbConn.First(&db_record_response).Where(&db_record_constraint)
+	globals.DbConn.Where(&db_record_constraint).First(&db_record_response)
 	//[TODO] Need to calculate password hashes here once we start storing hashed pass in database
+	fmt.Println(db_record_response)
 	if request_body.Adm_pass_plaintext == db_record_response.Adm_hash_pass {
 		return true
 	}
